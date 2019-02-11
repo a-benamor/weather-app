@@ -24,7 +24,7 @@ function getWeatherByCityNameAndUpdateHtmlPage(cityName){
     // Using the XHR to interact with openWeatherMap Api, AJAX programming
     let http = new XMLHttpRequest();
     let getMethod = 'GET';
-    let getWeatherUrl = 'https://samples.openweathermap.org/data/2.5/weather?q='+cityName+'&appid='+OPEN_WEATHER_MAP_API_KEY;
+    let getWeatherUrl = 'http://samples.openweathermap.org/data/2.5/weather?q='+cityName+'&appid='+OPEN_WEATHER_MAP_API_KEY;
     console.log(getWeatherUrl);
     // initialize the request
     http.open(getMethod, getWeatherUrl);
