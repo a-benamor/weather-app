@@ -14,14 +14,11 @@ export class HttpService {
                     resolve(RESPONSE_DATA);
                 } else if(HTTP_REQUEST.readyState == XMLHttpRequest.DONE){
                     console.log('Something went wrong ');
+                    console.log(HTTP_REQUEST.error);
                     reject(HTTP_REQUEST.status);
                 }
             }
             HTTP_REQUEST.send();
-            //HTTP_REQUEST.setRequestHeader();
-           /* HTTP_REQUEST.onload = () => resolve(HTTP_REQUEST.responseText);
-            HTTP_REQUEST.onerror = () => reject(HTTP_REQUEST.status); */
-
         });
     }
 }

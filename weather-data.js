@@ -17,10 +17,8 @@ export class WeatherData {
         return Reflect.get(target, propertyName);
     },
     set: function(target, property, value){
-        if('temperature' == property){
-            const newValue = (value *1.8 + 32).toFixed(2)+ 'F.';
+            const newValue = ( (value * 1.8) + 32) + 'F.';
             Reflect.set(target, property, newValue);
-        }
-
+            return true;
     }
 }
