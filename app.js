@@ -5,6 +5,7 @@
 import * as ELEMENTS from 'elements.js';
 import {HttpService} from 'httpService.js';
 import {OPEN_WEATHER_API_KEY} from 'openWeatherApiKey.js';
+import {WeatherData, WEATHER_PROXY_BEHAVIOR} from 'weather-data.js';
 
 
 
@@ -18,10 +19,23 @@ function searchWeather(){
         console.log('the user city name value is : ' + CITY_NAME);
         const URL = 'http://samples.openweathermap.org/data/2.5/weather?q='+CITY_NAME+'&appid='+OPEN_WEATHER_API_KEY ;
         console.log('The url is : ' + URL);
+        ELEMENTS.ELEMENT_WEATHER_BOX.style.display = 'none';
         HttpService.getData(URL).
             then(responseData => {
+                const WEATHER_OBJ = new WeatherData(CITY_NAME,responseData.weather[0].description);
+                const WEATHER_PROXY = new Proxy(WEATHER_OBJ, WEATHER_PROXY_BEHAVIOR);
+                WEATHER_PROXY.temperature = responseData.main.temp;
+                updateWeather(WEATHER_PROXY);
 
         }).catch(error => {alert(error)});
     }
 
+}
+
+function updateWeather(weatherProxy){
+    ELEMENTS.ELEMENT_WEATHER_CITY_NAME.textContent = weatherProxy.cityName;
+    ELEMENTS.ELEMENT_WEATHER_CITY_DESCRIPTION.textContent = weatherProxy.description;
+    ELEMENTS.ELEMENT_WEATHER_CITY_TEMPERATURE.textContent = weatherProxy.temperature;
+    ELEMENTS.ELEMENT_WEATHER_BOX.style.display = 'block';
+    ELEMENTS.ELEMENT_LOAD_BOX.style.display = 'none';
 }
