@@ -1,62 +1,57 @@
 /**
  * Created by adem on 09-Feb-19.
  */
-import {searchWeatherBtn, cityInput, weatherDescriptionElement, weatherTemperatureElement, weatherBox,
-loadBox, weatherCityHeader} from 'htmlElements.js';
+import * as ELEMENTS from 'htmlElements.js';
 import {OPEN_WEATHER_MAP_API_KEY} from 'openWeatherMapApiKey.js';
-import {Weather} from 'weather.js';
+import {Weather, WEATHER_OBJ_PROXY_BEHAVIOUR} from 'weather.js';
+import {HttpService} from 'http-service.js';
 
-searchWeatherBtn.addEventListener('click', searchWeather);
+ELEMENTS.SEARCH_WEATHER_BTN.addEventListener('click', searchWeather);
 
 function searchWeather(){
     console.log('Begin search weather method');
-    let cityNameValue = cityInput.value;
-    console.log(cityNameValue);
-    weatherBox.style.display = 'none';
-    if(cityNameValue.trim().length == 0){
+    const USER_CITY_NAME = ELEMENTS.CITY_INPUT.value;
+    console.log(USER_CITY_NAME);
+    ELEMENTS.WEATHER_BOX.style.display = 'none';
+    ELEMENTS.LOAD_BOX.style.display = 'none';
+    if(USER_CITY_NAME.trim().length == 0){
         return alert('Enter city name value');
     }else {
-       getWeatherByCityNameAndUpdateHtmlPage(cityNameValue.trim());
+       getWeatherByCityNameAndUpdateHtmlPage(USER_CITY_NAME.trim());
     }
 }
 
 function getWeatherByCityNameAndUpdateHtmlPage(cityName){
-    // Using the XHR to interact with openWeatherMap Api, AJAX programming
-    let http = new XMLHttpRequest();
-    let getMethod = 'GET';
-    let getWeatherUrl = 'http://samples.openweathermap.org/data/2.5/weather?q='+cityName+'&appid='+OPEN_WEATHER_MAP_API_KEY;
-    console.log(getWeatherUrl);
-    // initialize the request
-    http.open(getMethod, getWeatherUrl);
-
-    http.onreadystatechange = function(){
-        if(this.readyState === XMLHttpRequest.DONE && this.status == '200'){
-            if(http.responseText != null){
-                let cityWeatherResponse = http.responseText;
-                let cityWeatherDescription = cityWeatherResponse.weather.description;
-                let cityWeatherTemperature = cityWeatherResponse.main.temp;
-                let weatherObj = new Weather(cityWeatherDescription,cityWeatherTemperature );
-                weatherBox.style.display = 'block';
-                updateWeatherBox(weather,cityName );
-                loadBox.style.display = 'none';
-
-            }
-
-        }else if( this.readyState === XMLHttpRequest.DONE) {
-            return window.alert('An error occured !!');
+    const HOROKU_URL = 'https://cors-anywhere.herokuapp.com/';
+    const GET_WEATHER_URL = HOROKU_URL + 'http://samples.openweathermap.org/data/2.5/weather?q='+cityName+'&appid='+OPEN_WEATHER_MAP_API_KEY;
+    console.log(GET_WEATHER_URL);
+    ELEMENTS.LOAD_BOX.style.display = 'block';
+    HttpService.getData(GET_WEATHER_URL).then(
+        (responseText) => {
+            const WEATHER_OBJ = new Weather(responseText.name, responseText.weather[0].description);
+            const WEATHER_PROXY = new Proxy(WEATHER_OBJ, WEATHER_OBJ_PROXY_BEHAVIOUR);
+            WEATHER_PROXY.temperature = responseText.main.temp;
+            updateWeatherBox(WEATHER_PROXY);
         }
-    }
-
-    // Send the request
-    http.send();
+    ).catch(
+        (responseStatus => {
+            console.log(responseStatus);
+            ELEMENTS.WEATHER_BOX.style.display = 'none';
+            ELEMENTS.LOAD_BOX.style.display = 'none';
+            return alert(responseStatus);
+        })
+    )
 
 }
 
-function updateWeatherBox(weather, cityName){
+function updateWeatherBox(weather){
     console.log('Begin updateWeatherBox function');
-    weatherDescriptionElement.textContent = weather.description;
-    weatherTemperatureElement.textContent = weather.temperature;
-    weatherCityHeader.textContent = cityName;
+    ELEMENTS.WEATHER_DESCRIPTIN_DIV.textContent = weather.description;
+    ELEMENTS.WEATHER_TEMPERATURE_DIV.textContent = weather.temperature;
+    ELEMENTS.WEATHER_CITY_H.textContent = weather.cityName;
+    ELEMENTS.WEATHER_BOX.style.display = 'block';
+    ELEMENTS.LOAD_BOX.style.display = 'none';
+
 }
 
 
