@@ -27,14 +27,16 @@ function searchWeather(){
         HttpService.getData(URL).
             then(responseData => {
                 console.log(responseData);
-                console.log(responseData.weather[0].description);
-                console.log(responseData.main.temp)
-                const WEATHER_OBJ = new WeatherData(CITY_NAME,responseData.weather[0].description);
+                const WEATHER_OBJ = new WeatherData(responseData.name,responseData.weather[0].description);
                 const WEATHER_PROXY = new Proxy(WEATHER_OBJ, WEATHER_PROXY_BEHAVIOR);
                 WEATHER_PROXY.temperature = responseData.main.temp;
                 updateWeather(WEATHER_PROXY);
 
-        }).catch(error => {alert(error)});
+        }).catch(error => {
+            ELEMENTS.ELEMENT_WEATHER_BOX.style.display = 'none';
+            ELEMENTS.ELEMENT_LOAD_BOX.style.display = 'none';
+            alert(error)
+        });
     }
 
 }
