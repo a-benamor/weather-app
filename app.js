@@ -1,8 +1,8 @@
 /**
  * Created by adem on 09-Feb-19.
  */
-import * as ELEMENTS from 'htmlElements.js';
-import {OPEN_WEATHER_MAP_API_KEY} from 'openWeatherMapApiKey.js';
+import * as ELEMENTS from 'html-elements.js';
+import {OPEN_WEATHER_MAP_API_KEY} from 'open-weather-map-api-key.js';
 import {Weather, WEATHER_OBJ_PROXY_BEHAVIOUR} from 'weather.js';
 import {HttpService} from 'http-service.js';
 
