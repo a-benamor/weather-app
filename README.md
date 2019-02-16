@@ -18,8 +18,7 @@ I have also used
 
 ## Prerequisites
 
-In order to use this application, you must specify your API_KEY in open-weather-api-key.js file once you create an account to use the
- [openWeatherMap API](https://openweathermap.org/).
+In order to use this application, you must specify your API_KEY in open-weather-api-key.js file once you have created an account to use the [openWeatherMap API](https://openweathermap.org/).
 
 ## Youtube video
 
