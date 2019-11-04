@@ -1,6 +1,7 @@
 /**
  * Created by adem on 10-Feb-19.
  */
+const KELVIN_TO_CELCIUS = 273.15;
 
 export class Weather {
     constructor (cityName , description){
@@ -29,14 +30,12 @@ export const WEATHER_OBJ_PROXY_BEHAVIOUR = {
     },
     set : function(target, property, value){
         if(property = 'temperature'){
-            const newValue = ( (value * 1.8) + 32) + 'F.';
+            const newValue = (value - KELVIN_TO_CELCIUS) + ' °C';
             Reflect.set(target, property, newValue);
             return true;
         }
 
-
     }
-
 }
 
 

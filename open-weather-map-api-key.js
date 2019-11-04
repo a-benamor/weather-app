@@ -3,4 +3,5 @@
  */
 
 // Specify your openWeatherMap API key once you have created an account
-export const OPEN_WEATHER_MAP_API_KEY = '';
+const OPEN_WEATHER_MAP_API_KEY = '';
+export default OPEN_WEATHER_MAP_API_KEY;

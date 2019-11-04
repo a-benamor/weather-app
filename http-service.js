@@ -7,11 +7,15 @@ export class HttpService{
         return new Promise( (resolve, reject) => {
             // construct the http request
             const HTTP_REQUEST = new XMLHttpRequest();
-
             // initialize the request
             HTTP_REQUEST.open('GET', url);
-            HTTP_REQUEST.onload = () => resolve(JSON.parse(HTTP_REQUEST.responseText));
-            HTTP_REQUEST.onerror = () => reject(HTTP_REQUEST.statusText);
+            HTTP_REQUEST.onreadystatechange = () => {
+                if (HTTP_REQUEST.readyState == XMLHttpRequest.DONE && HTTP_REQUEST.status === 200) {
+                    resolve(JSON.parse(HTTP_REQUEST.responseText));
+                } else if (HTTP_REQUEST.readyState === XMLHttpRequest.DONE) {
+                    reject(JSON.parse(HTTP_REQUEST.responseText));
+                }
+            }
             // send the request
             HTTP_REQUEST.send();
         });
