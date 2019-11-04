@@ -1,7 +1,8 @@
 ## About the project
 
 This project was made for educational purpose only in order to build an interactive web page using ECMAScript 6.  
-This is a complete re-write from ECMAScript 5 to ECMAScript 6 of this project [weather-app-es5](https://github.com/abenamor9/weather-app-es5)
+  
+This is a complete re-write from ECMAScript 5 to ECMAScript 6 of the  [weather-app-es5](https://github.com/abenamor9/weather-app-es5) project.
 
 It is an application that retrieves and display the temperature and description of the city entered as a parameter.
 
